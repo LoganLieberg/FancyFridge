@@ -1,0 +1,27 @@
+<div class="my-fridge">
+  <h2>Find any recipe!</h2>
+  <form ng-submit="getRecipes(keyword)">
+    <div>
+      <label for="submit">Search:</label>
+      <input type="text" ng-model="keyword" />
+      <input type="submit" name="submit" class="button-primary" id="retrotext" />
+    </div>
+  </form>
+  <div id="recipe-card" class="row" ng-repeat="recipe in recipeSearchArray | startFrom:currentPage*pageSize | limitTo:pageSize">
+    <h5>{{recipe.Title}}</h5>
+    <img id="resize-img" class="eleven columns" src="{{recipe.PhotoUrl}}" />
+    <div class="recipe-container">
+      <ul id="recipe">
+        <li>Category: {{recipe.Category}} Subcategory: {{recipe.Subcategory}}</li>
+        <li>Servings: {{recipe.Servings}}</li>
+        <li>Number of Reviews: {{recipe.ReviewCount}}</li>
+        <li>Rating: {{recipe.StarRating}}</li>
+        <li>It's been tried {{recipe.TotalTries}} times.</li>
+        <a class="button" href="{{recipe.WebURL}}">View full recipe</a>
+      </ul>
+    </div>
+  </div>
+  <button class="button-primary" ng-show="displayRecipes" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+  <span ng-show="displayRecipes">{{currentPage+1}}/{{numberOfPages()}}</span>
+  <button class="button-primary" ng-show="displayRecipes" ng-disabled="currentPage >= recipeArray.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+</div>

@@ -1,0 +1,57 @@
+<div class="my-fridge">
+  <h2>Add stuff to your fridge, {{user.username}}!</h2>
+  <img src="/styles/images/fridgerd2.jpg" />
+  <form ng-submit="postIngredient()">
+    <div>
+      <label for="ingredient">Ingredient:</label>
+      <input type="text" ng-model="ingredient.name" />
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" ng-model="ingredient.quantity" />
+
+      <label for="submit">Unit:</label>
+      <select ng-options="unit as unit.label for unit in units" ng-model="ingredient.unit"></select>
+      <input id="retrotext" class="button-primary" type="submit" name="submit" />
+    </div>
+  </form>
+  <table class="twelve columns" ng-init="getIngredients()">
+    <thead>
+      <tr>
+        <th>Check to search</th>
+        <th>Ingredient Name</th>
+        <th>Quantity</th>
+        <th>Unit of Measurement</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="ingredient in fridge track by $index">
+      <td><input type="checkbox" ng-model="ingredient.checked"/></td>
+      <td contenteditable="true" ng-model="ingredient.name">{{ingredient.name}}</td>
+      <td contenteditable="true" ng-model="ingredient.quantity">{{ingredient.quantity}}</td>
+      <td>{{ingredient.unit}}</td>
+      <td><button class="button-primary" ng-click="updateIngredient(ingredient)">Update</button></td>
+      <td><button class="button-primary" ng-click="deleteIngredient(ingredient._id)">Delete</button></td>
+    </tbody>
+  </table>
+<div class="row">
+  <button id="searchbutton" class="button-primary twelve columns" ng-click="specificIngredientSearch()">Search with your checked ingredients!</button>
+</div>
+  <div id="recipe-card" class="row" ng-repeat="recipe in recipeArray | startFrom:currentPage*pageSize | limitTo:pageSize">
+    <h5>{{recipe.Title}}</h5>
+    <img id="resize-img" class="eleven columns" src="{{recipe.PhotoUrl}}" />
+    <div class="recipe-container">
+      <ul id="recipe">
+        <li>Category: {{recipe.Category}} Subcategory: {{recipe.Subcategory}}</li>
+        <li>Servings: {{recipe.Servings}}</li>
+        <li>Number of Reviews: {{recipe.ReviewCount}}</li>
+        <li>Rating: {{recipe.StarRating}}</li>
+        <li>It's been tried {{recipe.TotalTries}} times.</li>
+        <a class="button" href="{{recipe.WebURL}}">View full recipe</a>
+      </ul>
+    </div>
+  </div>
+  <button class="button-primary" ng-show="displayRecipes" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+  <span ng-show="displayRecipes">{{currentPage+1}}/{{numberOfPages()}}</span>
+  <button class="button-primary" ng-show="displayRecipes" ng-disabled="currentPage >= recipeArray.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+</div>
