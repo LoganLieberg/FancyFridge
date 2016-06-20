@@ -7,6 +7,7 @@ myApp.controller('LoginController', ['$scope', '$http', '$window', '$location', 
 
     $scope.displayNav = false;
 
+    console.log($scope.displayNav);
     $scope.login = function() {
       if($scope.user.username == '' || $scope.user.password == '') {
         $scope.message = "Enter your username and password!";
@@ -16,8 +17,9 @@ myApp.controller('LoginController', ['$scope', '$http', '$window', '$location', 
           if(response.data.username) {
             console.log('success: ', response.data);
             $scope.displayNav = true;
+            console.log($scope.displayNav);
             // location works with SPA (ng-route)
-            $location.path('/myFridge');
+            $location.path('/homePage');
           } else {
             console.log('failure: ', response);
             $scope.message = "Wrong!!";
@@ -44,9 +46,25 @@ myApp.controller('LoginController', ['$scope', '$http', '$window', '$location', 
 
   $scope.logout = function() {
     $http.get('/user/logout').then(function(response) {
-      $scope.displayNav = false;
       console.log('logged out');
       $location.path("/home");
     });
   }
+
+  $scope.$on('$routeChangeSuccess', function () {
+    var path = $location.path();
+    console.log(path);
+    if (path === '/myFridge') {
+      $scope.displayNav = true;
+    } else if (path === '/recipeSearch') {
+      $scope.displayNav = true;
+    } else if (path === '/groceryList') {
+      $scope.displayNav = true;
+    } else if (path === '/favoriteRecipes') {
+      $scope.displayNav = true;
+    } else {
+      $scope.displayNav = false;
+    }
+  })
+
 }]);

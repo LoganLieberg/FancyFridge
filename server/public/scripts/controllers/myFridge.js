@@ -2,6 +2,7 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
   console.log('FridgeController running');
   var baseURL = "https://api2.bigoven.com/recipes?pg=1&rpp=20&include_ing=";
   var key = "1y9bC0G7dhwrlnL135zx1208Yq7unbyT";
+  var user = undefined;
   $scope.fridge = [];
   $scope.ingredient = {};
   $scope.updatedIngredient = {};
@@ -11,8 +12,13 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
   $scope.searchMax = 0;
   $scope.displayRecipes = false;
   $scope.user = {};
+  $scope.favoriteRecipes = [];
+
   // $scope.units = {};
   $scope.units = [{
+    label: 'I dont wanna',
+    value: 'none'
+  }, {
     label: 'Teaspoon(s)',
     value: 'tsp'
   }, {
@@ -41,13 +47,24 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
     value: 'cup(s)'
   }];
 
-  getUserData();
+  if (user === undefined) {
+    getUserData().then(function() {
+      $scope.user = user;
+      console.log('User Data: ', $scope.user);
+      getFavoriteRecipes();
+      refreshIngredients();
+    })
+  } else {
+    getUserData();
+    $scope.user = user;
+    getFavoriteRecipes();
+    refreshIngredients();
+  }
 
   function getUserData () {
    var promise = $http.get('/user').then(function (response) {
      console.log(response.data);
-      $scope.user = response.data;
-      refreshIngredients();
+      user = response.data;
     });
     return promise;
   }
@@ -56,7 +73,6 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
     console.log($scope.user);
     $scope.ingredient.user_id = $scope.user._id;
     $scope.ingredient.unit = $scope.ingredient.unit.value;
-    $scope.ingredient.checked = false;
     console.log($scope.ingredient);
     $http.post('/myFridge', $scope.ingredient).then(function(response) {
       console.log('Ingredient successfully posted');
@@ -69,6 +85,13 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
       $scope.fridge = response.data;
     })
   };
+
+  function getFavoriteRecipes() {
+    $http.get('/favoriteRecipes/' + $scope.user._id).then(function(response) {
+      console.log(response);
+      $scope.favoriteRecipes = response.data;
+    })
+  }
 
   $scope.getIngredients = function () {
     $http.get('/myFridge/' + $scope.user._id).then(function(response) {
@@ -87,11 +110,16 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
     console.log(ingredient);
     $scope.updatedIngredient = ingredient
     var ingredientId = $scope.updatedIngredient._id
+    if ($scope.searchMax <= 3){
+      $scope.searchMax++
     $http.put('/myFridge/' + ingredientId, ingredient).then(function(response) {
       console.log('successful update');
       refreshIngredients();
-    })
+    });
+  } else {
+    alert('You have too man ingredients checked. You may use up to 3 to search with.');
   }
+}
 
   // $scope.storeObject = function (ingredient) {
   //   console.log(ingredient);
@@ -119,6 +147,20 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
          console.log('this runs');
          console.log(response.data);
          $scope.recipeArray = response.data.Results
+         $scope.recipeArray.forEach(function(recipe) {
+           recipe.StarRating = Math.trunc(recipe.StarRating);
+           recipe.favorite = false;
+           if ($scope.favoriteRecipes.length == 0) {
+             return;
+           } else {
+            for (var i = 0; i < $scope.favoriteRecipes.length; i++) {
+              if (recipe.RecipeID === $scope.favoriteRecipes[i].recipe_id) {
+                recipe.favorite = true;
+              }
+            }
+          }
+
+         })
          $scope.recipeCount = response.data.ResultCount
          $scope.displayRecipes = true;
          console.log($scope.recipeArray);
@@ -129,6 +171,34 @@ myApp.controller('FridgeController', ['$scope', '$http', '$window', '$location',
       return
     }
   }
+
+  $scope.postFavoriteRecipe = function (recipe) {
+    console.log("start function");
+    $scope.postRecipe = {};
+    $scope.postRecipe.user_id = $scope.user._id;
+    $scope.postRecipe.recipe_id = recipe.RecipeID;
+    $scope.postRecipe.favorite = recipe.favorite;
+    $scope.postRecipe.title = recipe.Title;
+    $scope.postRecipe.photo_url = recipe.PhotoUrl;
+    $scope.postRecipe.category = recipe.Category;
+    $scope.postRecipe.subcategory = recipe.Subcategory;
+    $scope.postRecipe.servings = recipe.Servings;
+    $scope.postRecipe.review_count = recipe.ReviewCount;
+    $scope.postRecipe.total_tries = recipe.TotalTries;
+    $scope.postRecipe.rating = recipe.StarRating;
+    $scope.postRecipe.web_url = recipe.WebURL;
+    if ($scope.postRecipe.favorite === false) {
+      recipe.favorite = true;
+      $scope.postRecipe.favorite = true;
+    $http.post('/favoriteRecipes', $scope.postRecipe).then(function(response) {
+      console.log('Recipe successfully posted');
+      });
+  } else {
+    alert('Go to favorites to remove this from your saved favorites.')
+    return;
+  };
+}
+
 
   //pagination functionality (taken from stackoverflow)??
     $scope.currentPage = 0;

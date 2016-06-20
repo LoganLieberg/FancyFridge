@@ -2,31 +2,18 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RecipeSchema = new Schema ({
-  recipeID: 0,
-  title: "string",
-  description: "string",
-  cuisine: "string",
-  category: "string",
-  primaryIngredient: "string",
-  starRating: 0,
-  webURL: "string",
-  ingredients: [
-    {
-      name: "string",
-      htmlName: "string",
-      quantity: 0,
-      displayQuantity: "string",
-      unit: "string",
-      prepNotes: "string"
-    }
-  ],
-  instructions: "string",
-  yieldNumber: 0,
-  yieldUnit: "string",
-  totalMinutes: 0,
-  activeMinutes: 0,
-  ingredientsTextBlock: "string",
-  heroPhotoUrl: "string"
+  user_id: {type: String, required: true},
+  recipe_id: {type: Number, required: true},
+  favorite: {type: Boolean},
+  title: {type: String, required: true},
+  photo_url: {type: String},
+  category: {type: String},
+  subcategory: {type: String},
+  servings: {type: Number},
+  review_count: {type: Number},
+  rating: {type: Number},
+  total_tries: {type: Number},
+  web_url: {type: String}
 })
 
 

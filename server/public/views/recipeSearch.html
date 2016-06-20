@@ -18,6 +18,7 @@
         <li>Rating: {{recipe.StarRating}}</li>
         <li>It's been tried {{recipe.TotalTries}} times.</li>
         <a class="button" href="{{recipe.WebURL}}">View full recipe</a>
+        <section ng-class="{'favorite': recipe.favorite}" ng-click="postFavoriteRecipe(recipe)" class="fave heart"></section>
       </ul>
     </div>
   </div>

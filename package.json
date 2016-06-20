@@ -16,11 +16,15 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "factual-api": "^1.0.7",
+    "hover.css": "^2.0.2",
     "mongoose": "^4.4.20",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "request": "^2.72.0",
     "sass": "^0.5.0",
+    "semantics3-node": "0.0.3",
     "skeleton": "^0.1.2",
     "skeleton-sass": "0.0.1"
   }

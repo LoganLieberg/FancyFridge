@@ -35,7 +35,7 @@
     </tbody>
   </table>
 <div class="row">
-  <button id="searchbutton" class="button-primary twelve columns" ng-click="specificIngredientSearch()">Search with your checked ingredients!</button>
+  <button id="searchbutton" class="button-primary hvr-float-shadow twelve columns" ng-click="specificIngredientSearch()">Search with your checked ingredients!</button>
 </div>
   <div id="recipe-card" class="row" ng-repeat="recipe in recipeArray | startFrom:currentPage*pageSize | limitTo:pageSize">
     <h5>{{recipe.Title}}</h5>
@@ -48,6 +48,7 @@
         <li>Rating: {{recipe.StarRating}}</li>
         <li>It's been tried {{recipe.TotalTries}} times.</li>
         <a class="button" href="{{recipe.WebURL}}">View full recipe</a>
+        <section ng-class="{'favorite': recipe.favorite}" ng-click="postFavoriteRecipe(recipe)" class="fave heart"></section>
       </ul>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<div>
+<div class="my-fridge">
   <h1 class="lead">Login</h1>
     <h1 class="lead alert alert-danger" role="alert" ng-if="message != ''">{{message}}</h2>
     <form ng-submit="login()">
@@ -11,7 +11,7 @@
           <input type="password" ng-model="user.password" />
       </div>
       <div>
-          <input class="button" type="submit" name="submit" value="Log In" />
+          <input id="login-button" class="button hvr-pulse-shrink" type="submit" name="submit" value="Log In" />
           <a href="#register">Register</a>
       </div>
     </form>

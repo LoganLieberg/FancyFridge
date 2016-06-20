@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var Recipe = require('../models/recipeschema');
 var path = require('path');
 
+
 router.get('/', function (req, res) {
   Recipe.find({}, function (err, recipes) {
     if (err) {

@@ -1,3 +1,40 @@
-<div>
-  <p>Annnnnd this one.</p>
+<div class="my-fridge">
+  <h2>Make your grocery list!</h2>
+  <form ng-submit="itemSearch(keyword)">
+    <div>
+      <label for="submit">Search:</label>
+      <input type="text" ng-model="keyword" />
+      <input type="submit" name="submit" class="button-primary" id="retrotext" />
+    </div>
+  </form>
+  <div ng-repeat="item in itemSearchArray | startFrom:currentPage*pageSize | limitTo:pageSize">
+    <h5>Product Name: {{item.product_name}}</h5>
+    <img id="walmart-items" src="{{item.image_urls[0]}}" />
+    <div class="search-container">
+      <ul>
+        <li>Average Price: ${{item.avg_price}}</li>
+        <li>Count: {{item.count}}</li>
+        <li>UPC: {{item.upc}}</li>
+        <button ng-click="postItem(item)">Add to cart</button>
+      </ul>
+    </div>
+  </div>
+  <button class="button-primary" ng-show="displayItems" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+  <span ng-show="displayItems">{{currentPage+1}}/{{numberOfPages()}}</span>
+  <button class="button-primary" ng-show="displayItems" ng-disabled="currentPage >= itemSearchArray.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+  <h2 ng-init="getItems()">{{user.username}}'s shopping list</h2>
+  <div class="grocery-list" ng-repeat="item in groceryList track by $index">
+    <h5>Product Name: {{item.product_name}}</h5>
+    <img id="walmart-items" src="{{item.image_urls}}" />
+    <div class="list-container">
+      <ul>
+        <li>Average Price: ${{item.avg_price}}</li>
+        <li>Count: {{item.count}}</li>
+        <li>Quantity: {{item.quantity}}</li>
+        <li>UPC: {{item.upc}}</li>
+        <button ng-click="deleteItem(item._id)">Delete</button>
+      </ul>
+    </div>
+  </div>
+<h4 id="cost-estimation">Cost Estimation: ${{cost.total}}</h4>
 </div>

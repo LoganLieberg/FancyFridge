@@ -1,0 +1,16 @@
+<div class="my-fridge" ng-init="getRandomRecipe()">
+  <h2>Recipe of the moment!</h2>
+  <h5>{{randomRecipe.Title}}</h5>
+  <img id="resize-img" class="eleven columns" src="{{randomRecipe.HeroPhotoUrl}}" />
+  <div class="recipe-container">
+    <ul id="recipe">
+      <li>Category: {{randomRecipe.Category}}</li>
+      <li>Servings: {{randomRecipe.Servings}}</li>
+      <li>Number of Reviews: {{randomRecipe.ReviewCount}}</li>
+      <li>Rating: {{randomRecipe.StarRating}}</li>
+      <li>It's been tried {{randomRecipe.TotalTries}} times.</li>
+      <a class="button" href="{{randomRecipe.WebURL}}">View full recipe</a>
+      <section ng-class="{'favorite': randomRecipe.favorite}" ng-click="postFavoriteRecipe(randomRecipe)" class="fave heart"></section>
+    </ul>
+  </div>
+</div>

@@ -22,6 +22,14 @@ myApp.config(['$routeProvider', function($routeProvider) {
       templateUrl: '/views/home.html',
       controller: 'LoginController'
     })
+    .when('/homePage', {
+      templateUrl: '/views/homePage.html',
+      controller: 'SearchController'
+    })
+    .when('/instructions', {
+      templateUrl: '/views/instructions.html',
+      controller: 'SearchController'
+    })
     .when('/register', {
       templateUrl: '/views/register.html',
       controller: 'LoginController'

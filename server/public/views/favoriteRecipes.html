@@ -1,3 +1,18 @@
-<div>
-  <p>Annnnnnd this one also as well.</p>
+<div class="my-fridge">
+  <h2>{{user.username}}'s Favorite Recipes!</h2>
+  <div id="recipe-card" class="row" ng-repeat="recipe in recipeArray | startFrom:currentPage*pageSize | limitTo:pageSize">
+    <h5>{{recipe.title}}</h5>
+    <img id="resize-img" class="eleven columns" src="{{recipe.photo_url}}" />
+    <div class="recipe-container">
+      <ul id="recipe">
+        <li>Category: {{recipe.category}} Subcategory: {{recipe.subcategory}}</li>
+        <li>Servings: {{recipe.servings}}</li>
+        <li>Number of Reviews: {{recipe.review_count}}</li>
+        <li>Rating: {{recipe.rating}}</li>
+        <li>It's been tried {{recipe.total_tries}} times.</li>
+        <a class="button" href="{{recipe.web_url}}">View full recipe</a>
+        <a class="button" ng-click="deleteRecipe(recipe._id)">Delete from Favorites</a>
+      </ul>
+    </div>
+  </div>
 </div>

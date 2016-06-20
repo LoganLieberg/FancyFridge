@@ -8,6 +8,10 @@ console.log('NavController running');
     console.log(path);
     if (path === '/myFridge') {
       $scope.show = true;
+    } else if (path === '/instructions') {
+      $scope.show = true;
+    } else if (path === '/homePage') {
+      $scope.show = true;
     } else if (path === '/recipeSearch') {
       $scope.show = true;
     } else if (path === '/groceryList') {
@@ -18,4 +22,6 @@ console.log('NavController running');
       $scope.show = false;
     }
   })
+
+
 }]);

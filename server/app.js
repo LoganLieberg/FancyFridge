@@ -13,6 +13,8 @@ var Ingredient = require('./routes/myFridge');
 var index = require('./routes/index');
 var register = require('./routes/register');
 var user = require('./routes/user');
+var grocery = require('./routes/groceryList');
+var favorite = require('./routes/favoriteRecipes');
 
 var databaseURI = 'mongodb://localhost:27017/mu';
 
@@ -48,6 +50,8 @@ app.use('/recipeSearch', Recipe);
 app.use('/myFridge', Ingredient);
 app.use('/register', register);
 app.use('/user', user);
+app.use('/groceryList', grocery);
+app.use('/favoriteRecipes', favorite);
 app.use('/*', index);
 // Handle index file separately
 // app.get('/', function(req, res) {
